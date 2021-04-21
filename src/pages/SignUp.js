@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import Axios from 'axios';
-import { ApiBaseUrl } from '../variables';
+import { ApiBaseUrl, Domain } from '../variables';
 
 export const SignUp = () => {
 
@@ -30,14 +30,14 @@ export const SignUp = () => {
                     case 200:
                 
                     setPopUpMessage('Account Created Successfully, You will be redirected to log in page')
-                    window.location.href = 'http://192.168.0.114:3000/login'
+                    window.location.href = `${Domain}/login`
                     
                     break;
     
                     case 1000:
     
                     setPopUpMessage('User already exists, redirecting to log in')
-                    window.location.href = 'http://192.168.0.114:3000/login'
+                    window.location.href = `${Domain}/login`
     
                     break;
     
