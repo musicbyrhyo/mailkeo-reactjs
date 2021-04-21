@@ -1,0 +1,1 @@
+export const ApiBaseUrl = 'https://mailkeo-api.herokuapp.com/api';
