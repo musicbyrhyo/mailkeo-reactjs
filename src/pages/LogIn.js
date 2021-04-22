@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import Axios from 'axios';
-import { ApiBaseUrl, Domain } from '../variables';
+import { ApiBaseUrl } from '../variables';
 
 export const LogIn = () => {
 
@@ -38,7 +38,7 @@ export const LogIn = () => {
                     const user_id = res.data.data.user_id;
                     sessionStorage.setItem('id',user_id)
                     // const id = sessionStorage.getItem('id')
-                    window.location.href = `${Domain}/dashboard`
+                    window.location.href = `/dashboard`
 
                     break;
 

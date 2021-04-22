@@ -3,7 +3,9 @@ import styled from 'styled-components'
 export const Colors = {
     primary: '#214ED3',
     light: '#C3D8FA',
-    dark: '#0A1A47'
+    dark: '#0A1A47',
+    underlay: '#C4C4C4',
+    profile: '#7A7A7A'
 }
 
 export const PrimaryBtn = styled.a`
