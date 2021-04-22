@@ -3,16 +3,6 @@ import { Colors } from '../StyledComponents'
 
 export const LeftBar = ({one,two,three}) => {
 
-    const MenuActive = {
-        color: Colors.primary,
-        bg: Colors.dark,
-    }
-
-    const MenuInActive = {
-        color: Colors.dark,
-        bg: 'transparent'
-    }
-
     return (
         <LeftBarHolder>
             <LogoHolder>
@@ -22,8 +12,8 @@ export const LeftBar = ({one,two,three}) => {
                 <MenuItemA href="/campaigns" bg={one.bg}>
                     <SvgHolder>
                         <MenuItemSvg viewBox="0 0 18 18" fill="none" stroke={one.color} xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.4 5H2.6C1.71634 5 1 5.71634 1 6.6V15.4C1 16.2837 1.71634 17 2.6 17H15.4C16.2837 17 17 16.2837 17 15.4V6.6C17 5.71634 16.2837 5 15.4 5Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M13 1L9 5L5 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.4 5H2.6C1.71634 5 1 5.71634 1 6.6V15.4C1 16.2837 1.71634 17 2.6 17H15.4C16.2837 17 17 16.2837 17 15.4V6.6C17 5.71634 16.2837 5 15.4 5Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M13 1L9 5L5 1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </MenuItemSvg>
                     </SvgHolder>
                     <MenuItemText color={one.color} weight={one.weight}>
@@ -33,10 +23,10 @@ export const LeftBar = ({one,two,three}) => {
                 <MenuItemA href="/audience" bg={two.bg}>
                     <SvgHolder>
                         <MenuItemSvg viewBox="0 0 22 18" fill="none" stroke={two.color} xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.2222 16.9994V15.2216C15.2222 14.2786 14.8476 13.3742 14.1808 12.7074C13.514 12.0406 12.6097 11.666 11.6667 11.666H4.55556C3.61256 11.666 2.70819 12.0406 2.0414 12.7074C1.3746 13.3742 1 14.2786 1 15.2216V16.9994" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8.11122 8.11111C10.0749 8.11111 11.6668 6.51924 11.6668 4.55556C11.6668 2.59188 10.0749 1 8.11122 1C6.14754 1 4.55566 2.59188 4.55566 4.55556C4.55566 6.51924 6.14754 8.11111 8.11122 8.11111Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M20.5553 16.999V15.2213C20.5548 14.4335 20.2926 13.6682 19.8099 13.0455C19.3272 12.4229 18.6515 11.9782 17.8887 11.7812" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14.333 1.11523C15.0978 1.31106 15.7757 1.75586 16.2598 2.37951C16.7439 3.00316 17.0066 3.77019 17.0066 4.55968C17.0066 5.34916 16.7439 6.11619 16.2598 6.73985C15.7757 7.3635 15.0978 7.8083 14.333 8.00412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.2222 16.9994V15.2216C15.2222 14.2786 14.8476 13.3742 14.1808 12.7074C13.514 12.0406 12.6097 11.666 11.6667 11.666H4.55556C3.61256 11.666 2.70819 12.0406 2.0414 12.7074C1.3746 13.3742 1 14.2786 1 15.2216V16.9994" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M8.11122 8.11111C10.0749 8.11111 11.6668 6.51924 11.6668 4.55556C11.6668 2.59188 10.0749 1 8.11122 1C6.14754 1 4.55566 2.59188 4.55566 4.55556C4.55566 6.51924 6.14754 8.11111 8.11122 8.11111Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M20.5553 16.999V15.2213C20.5548 14.4335 20.2926 13.6682 19.8099 13.0455C19.3272 12.4229 18.6515 11.9782 17.8887 11.7812" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M14.333 1.11523C15.0978 1.31106 15.7757 1.75586 16.2598 2.37951C16.7439 3.00316 17.0066 3.77019 17.0066 4.55968C17.0066 5.34916 16.7439 6.11619 16.2598 6.73985C15.7757 7.3635 15.0978 7.8083 14.333 8.00412" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </MenuItemSvg>
                     </SvgHolder>
                     <MenuItemText color={two.color} weight={two.weight}>
@@ -46,8 +36,8 @@ export const LeftBar = ({one,two,three}) => {
                 <MenuItemA href="/account" bg={three.bg}>
                     <SvgHolder>
                         <MenuItemSvg viewBox="0 0 17 18" fill="none" stroke={three.color} xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.2222 16.9993V15.2216C15.2222 14.2786 14.8476 13.3742 14.1808 12.7074C13.514 12.0406 12.6097 11.666 11.6667 11.666H4.55556C3.61256 11.666 2.70819 12.0406 2.0414 12.7074C1.3746 13.3742 1 14.2786 1 15.2216V16.9993" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8.11122 8.11111C10.0749 8.11111 11.6668 6.51923 11.6668 4.55556C11.6668 2.59188 10.0749 1 8.11122 1C6.14754 1 4.55566 2.59188 4.55566 4.55556C4.55566 6.51923 6.14754 8.11111 8.11122 8.11111Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.2222 16.9993V15.2216C15.2222 14.2786 14.8476 13.3742 14.1808 12.7074C13.514 12.0406 12.6097 11.666 11.6667 11.666H4.55556C3.61256 11.666 2.70819 12.0406 2.0414 12.7074C1.3746 13.3742 1 14.2786 1 15.2216V16.9993" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M8.11122 8.11111C10.0749 8.11111 11.6668 6.51923 11.6668 4.55556C11.6668 2.59188 10.0749 1 8.11122 1C6.14754 1 4.55566 2.59188 4.55566 4.55556C4.55566 6.51923 6.14754 8.11111 8.11122 8.11111Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </MenuItemSvg>
                     </SvgHolder>
                     <MenuItemText color={three.color} weight={three.weight}>
@@ -104,6 +94,7 @@ const MenuItemText = styled.div`
     display: flex;
     align-items: center;
     color: ${props => props.color};
+    transition: 400ms ease-in-out;
 
 `
 
@@ -114,13 +105,14 @@ const SvgHolder = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 400ms ease-in-out;
 
 `
 
 const MenuItemSvg = styled.svg`
 
     height: 18px;
-
+    transition: 400ms ease-in-out;
 `
 
 const MenuHolder = styled.div`
@@ -128,6 +120,7 @@ const MenuHolder = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;    
+    transition: 400ms ease-in-out;
 
 `
 
@@ -140,6 +133,7 @@ const MenuItemA = styled.a`
     background: ${props=> props.bg};
     border-radius: 5px;
     margin-bottom: 12px;
+    transition: 400ms ease-in-out;
 
 `
 
@@ -150,6 +144,7 @@ const LogoHolder = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 400ms ease-in-out;
 
 `
 
@@ -162,6 +157,7 @@ const LeftBarHolder = styled.div`
     min-width: 200px; 
     height: 100vh;
     background-color: ${Colors.light};
+    transition: 400ms ease-in-out;
 
     @media (max-width: 1366px)
     {
