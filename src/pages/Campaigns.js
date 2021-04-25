@@ -1,26 +1,27 @@
-import { LeftBar } from "../components/DashBoard/LeftBar"
-import { RightBar } from "../components/DashBoard/RightBar"
-import { Colors } from "../components/StyledComponents"
+import React from 'react'
+import { DashBoardNav } from '../components/DashBoardNav'
 
 export const Campaigns = () => {
 
-    const MenuActive = {
-        color: Colors.light,
-        bg: Colors.dark,
-        weight: 400
+    const Active = {
+        one: {
+            opacity: '1',
+        },
+        two: {
+            opacity: '0.5',
+        },
+        three: {
+            opacity: '1',
+        },
+        four: {
+            opacity: '1',
+        },
+        left: '100px'
     }
-
-    const MenuInActive = {
-        color: Colors.dark,
-        bg: 'transparent',
-        weight: 600
-    }
-
 
     return (
         <>
-            <LeftBar one={MenuActive} two={MenuInActive} three={MenuInActive} />
-            <RightBar />
+            <DashBoardNav Active={Active}/>
         </>
     )
 }

@@ -4,6 +4,7 @@ import { Audience } from './pages/Audience';
 import { Campaigns } from './pages/Campaigns';
 import { Home } from './pages/Home';
 import { LogIn } from './pages/LogIn';
+import { Overview } from './pages/Overview';
 import { SignUp } from './pages/SignUp';
 function Routing() {
   return (
@@ -15,6 +16,7 @@ function Routing() {
         <Route exact path="/campaigns" render={(props)=>(<Campaigns/>)} />
         <Route exact path="/audience" render={(props)=>(<Audience/>)} />
         <Route exact path="/account" render={(props)=>(<Account/>)} />
+        <Route exact path="/overview" render={(props)=>(<Overview/>)} />
       </Router>
     </>
   );
