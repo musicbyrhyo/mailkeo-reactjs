@@ -50,8 +50,8 @@ export const Audience = () => {
                     <Header>
                         Your Campaigns
                     </Header>
-                    <CreateCampaign>
-                        Create New Campaign
+                    <CreateCampaign href="/create/audience">
+                        Create New Audience
                     </CreateCampaign>
                 </HeaderHolder>
                 <div>

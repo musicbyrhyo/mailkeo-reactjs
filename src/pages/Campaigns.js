@@ -53,7 +53,7 @@ export const Campaigns = () => {
                     <Header>
                         Your Campaigns
                     </Header>
-                    <CreateCampaign>
+                    <CreateCampaign href="/create/campaign">
                         Create New Campaign
                     </CreateCampaign>
                 </HeaderHolder>

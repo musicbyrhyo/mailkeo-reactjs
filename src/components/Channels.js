@@ -24,12 +24,14 @@ export const ChannelA = ({title,date,list,id}) => {
                     <PrimaryBtn href={viewcampaign}>
                         View Campaign
                     </PrimaryBtn>
+                    <SecondBtns>
                     <SecondaryBtn href={restartcampaign}>
                         Restart
                     </SecondaryBtn>
                     <SecondaryBtn href={deletecampaign}>
                         Delete
                     </SecondaryBtn>
+                    </SecondBtns>
                 </ARight>
             </ChannelAHolder>
     )
@@ -66,6 +68,12 @@ export const ChannelB = ({title,date,subscribers,id}) => {
     )
 }
 
+const SecondBtns = styled.div`
+
+    display: flex;
+
+`
+
 const DateStarted = styled.div`
 
     font-weight: 500;
@@ -76,12 +84,21 @@ const DateStarted = styled.div`
 
 const ALeft = styled.div`
 
+    @media (max-width: 500px)
+    {
+        text-align: center;
+    }
 
 `
 const ARight = styled.div`
 
     display: flex;
     align-items: center;
+
+    @media (max-width: 700px)
+    {
+        flex-direction: column;
+    }
 
 `
 
@@ -108,6 +125,19 @@ const PrimaryBtn = styled.a`
     justify-content:center;
     background-color: ${Colors.primary};
 
+    @media (max-width: 700px)
+    {
+        width: calc(100% - 10px);
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 700px)
+    {
+        width: calc(100% - 10px);
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
 `
 
 const SecondaryBtn = styled.a`
@@ -125,11 +155,11 @@ const SecondaryBtn = styled.a`
     justify-content:center;
     border: 1px solid ${Colors.primary};
 
-`
-
-const HolderA = styled.a`
-
-
+    @media (max-width: 700px)
+    {
+        margin: 0px 5px;
+        width: 100%;
+    }
 
 `
 
@@ -152,6 +182,12 @@ const ChannelAHolder = styled.div`
         border: 1px solid ${Colors.primary};
         transition: 10ms ease-in-out;
     
+    }
+
+    @media (max-width: 500px)
+    {
+        width: 100%;
+        flex-direction: column;
     }
 
 `
