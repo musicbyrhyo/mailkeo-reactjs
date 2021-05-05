@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 import { Colors } from './StyledComponents'
 
-export const OverviewChannelA = ({title,date,link}) => {
+export const OverviewChannelA = ({title,date,id}) => {
+
+    const Link = `/campaigns/${id}`
+
     return (
-        <LinkA href={link}>
+        <LinkA href={Link} >
             <LinkHolder>
                 <LinkLeft>
                     <LinkHeader>
@@ -26,9 +29,12 @@ export const OverviewChannelA = ({title,date,link}) => {
     )
 }
 
-export const OverviewChannelB = ({title,subscribers,link}) => {
+export const OverviewChannelB = ({title,subscribers,id}) => {
+
+    const Link = `/campaigns/${id}`
+
     return (
-        <LinkA href={link}>
+        <LinkA href={Link}>
             <LinkHolder>
                 <LinkLeft>
                     <LinkHeader>
@@ -73,13 +79,14 @@ const LinkHolder = styled.div`
 
     margin-top: 24px;
     padding: 30px;
-    border: 1px solid ${Colors.primary};
+    background-color: ${Colors.light};
+    border: 1px solid ${Colors.light};
     border-radius: 5px;
-    transition: 400ms ease-in-out;
+    transition: 100ms ease-in-out;
     
     &:hover
     {
-        border: 2px solid ${Colors.primary};
+        border: 1px solid ${Colors.primary};
         transition: 100ms ease-in-out;
     }
 

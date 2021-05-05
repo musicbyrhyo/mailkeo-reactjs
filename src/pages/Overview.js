@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { CompBar } from '../components/CompBar'
 import { DashBoardNav } from '../components/DashBoardNav'
@@ -28,11 +28,45 @@ export const Overview = () => {
         left: '0px'
     }
 
-    useEffect(() => {
-        
+    const Campaigns = [
+        {
+            title: 'My Email Campaign 1',
+            date: '05-01-2021',
+            id: 1
+        },
+        {
+            title: 'My Email Campaign 2',
+            date: '05-01-2021',
+            id: 2
+        },
+        {
+            title: 'My Email Campaign 3',
+            date: '05-01-2021',
+            id: 3
+        },
+    ]
 
+    const CampaignList = Campaigns.map((campaign) => <OverviewChannelA title={campaign.title} date={campaign.date} id={campaign.id}/>)
 
-    }, [])
+    const Audience = [
+        {
+            title: 'audience 1',
+            subscribers: 600,
+            id: 1
+        },
+        {
+            title: 'audience 2',
+            subscribers: 800,
+            id: 2
+        },
+        {
+            title: 'audience 3',
+            subscribers: 1200,
+            id: 3
+        },
+    ]
+
+    const AudienceList = Audience.map((audience) => <OverviewChannelB title={audience.title} subscribers={audience.subscribers} id={audience.id}/>)
 
     return (
         <>
@@ -54,10 +88,15 @@ export const Overview = () => {
                                 Recent Activity
                             </SectionHeader>
                             <div>
-                                <OverviewChannelA title="My Email Campaign" date="5st Jan 2021" link="/campaigns/campaign" />
-                                <OverviewChannelA title="My Email Campaign 2" date="5st Jan 2021" link="/campaigns/campaign" />
-                                <OverviewChannelA title="My Email Campaign 3" date="5st Jan 2021" link="/campaigns/campaign" />
-                                <OverviewChannelA title="My Email Campaign 4" date="5st Jan 2021" link="/campaigns/campaign" />
+                                {CampaignList}
+                                <ViewAll href="/campaigns">
+                                    <LinkText>
+                                        All Campaigns
+                                    </LinkText>
+                                    <svg width="19" height="11" viewBox="0 0 19 11" fill={Colors.light} xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.7072 0.345703L12.8669 1.18609L16.4323 4.75149H0.935547V5.94003H16.4322L12.8669 9.50532L13.7072 10.3457L18.7073 5.3457L13.7072 0.345703Z"/>
+                                    </svg>
+                                </ViewAll>
                             </div>
                         </BCol1>
                         <BCol2>
@@ -65,11 +104,15 @@ export const Overview = () => {
                                 Audiences
                             </SectionHeader>
                             <div>
-                                <OverviewChannelB title="My Audience" subscribers="500" link="/audience/list1" />
-                                <OverviewChannelB title="My Audience 1" subscribers="500" link="/audience/list1" />
-                                <OverviewChannelB title="My Audience 2" subscribers="500" link="/audience/list1" />
-                                <OverviewChannelB title="My Audience 3" subscribers="500" link="/audience/list1" />
-                                <OverviewChannelB title="My Audience 4" subscribers="500" link="/audience/list1" />
+                                {AudienceList}
+                                <ViewAll href="/audience" >
+                                    <LinkText>
+                                        All Audiences
+                                    </LinkText>
+                                    <svg width="19" height="11" viewBox="0 0 19 11" fill={Colors.light} xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.7072 0.345703L12.8669 1.18609L16.4323 4.75149H0.935547V5.94003H16.4322L12.8669 9.50532L13.7072 10.3457L18.7073 5.3457L13.7072 0.345703Z"/>
+                                    </svg>
+                                </ViewAll>
                             </div>
                         </BCol2>
                 </SectionB>
@@ -77,6 +120,29 @@ export const Overview = () => {
         </>
     )
 }
+
+const LinkText = styled.div`
+
+    font-size: 14px;
+    margin-right: 6px;
+
+`
+
+const ViewAll = styled.a`
+
+    color: ${Colors.light};
+    width: 100%;
+    min-width: 140px;
+    max-width: 200px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: ${Colors.primary};
+    border-radius: 5px;
+
+
+`
 
 const SectionHeader = styled.div`
 
