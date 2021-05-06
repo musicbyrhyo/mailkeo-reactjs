@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ChannelA, ChannelB } from '../components/Channels'
+import { ChannelB } from '../components/Channels'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 

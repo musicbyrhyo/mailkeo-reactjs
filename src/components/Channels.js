@@ -41,7 +41,6 @@ export const ChannelB = ({title,date,subscribers,id}) => {
 
     const viewlist = `/audience/${id}`
     const deletelist = `/audience/${id}/delete`
-    const restartlist = `/audience/${id}/resend`
 
     return (
             <ChannelAHolder>
