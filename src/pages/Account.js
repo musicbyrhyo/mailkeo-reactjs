@@ -134,14 +134,6 @@ const AboutTop = styled.div`
 
 `
 
-const EditBtnHolder = styled.div`
-
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-
-`
-
 const EditBtn = styled.div`
 
     font-weight: 500;
@@ -291,14 +283,6 @@ const Col3 = styled.div`
 const Col4 = styled.div`
 
     width: 25%;
-
-`
-
-const Divider = styled.div`
-
-    height: 1px;
-    width: 100%;
-    background-color: ${Colors.dark};
 
 `
 
