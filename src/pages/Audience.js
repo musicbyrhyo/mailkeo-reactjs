@@ -101,11 +101,12 @@ const Header = styled.div`
 
 const HeaderHolder = styled.div`
 
-    margin: 20px 0px;
+    margin: 40px 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+
 `
 
 const CreateCampaign = styled.a`
@@ -115,7 +116,12 @@ const CreateCampaign = styled.a`
     font-weight: 400;
     border-radius: 5px;
     padding: 10px;
+    height: 40px;
+    width: 200px;
     background-color: ${Colors.primary};
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 `
 
