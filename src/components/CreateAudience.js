@@ -3,26 +3,6 @@ import { Colors } from './StyledComponents'
 
 export const CreateAudience = ({Trigger,setTrigger}) => {
 
-    const Lists = [
-        {
-            ListName: 'list1'
-        },
-        {
-            ListName: 'list2'
-        },
-        {
-            ListName: 'list3'
-        },
-        {
-            ListName: 'list4'
-        },
-        {
-            ListName: 'list5'
-        },
-    ]
-
-    const SelectList = Lists.map((list)=> <ListItems value={list.ListName}>{list.ListName}</ListItems> )
-
     const CloseView = () => {
         setTrigger(false)
     }
@@ -61,31 +41,6 @@ export const CreateAudience = ({Trigger,setTrigger}) => {
         </>
     ) : '' ;
 }
-
-const ListSelect = styled.select`
-
-    width: 100%;
-    border: 1px solid ${Colors.dark};
-    height: 40px;
-    padding-left: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    font-weight: 500;
-    
-    &:focus{
-        outline: none;
-    }
-
-`
-
-const ListItems = styled.option`
-
-    width: 100%;
-    border: 1px solid ${Colors.dark};
-    padding-left: 10px;
-    font-weight: 400;
-
-`
 
 const InputFieldHolder = styled.div`
 
