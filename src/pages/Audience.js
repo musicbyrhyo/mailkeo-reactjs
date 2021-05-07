@@ -1,9 +1,17 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { ChannelB } from '../components/Channels'
+import { CreateAudience } from '../components/CreateAudience'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 
 export const Audience = () => {
+
+    const [CreateAudienceTrigger, setCreateAudienceTrigger] = useState(false)
+
+    const ViewCreateAudience = () => {
+        setCreateAudienceTrigger(true);
+    }
 
     const Active = {
         one: {
@@ -25,22 +33,24 @@ export const Audience = () => {
         {
             title: 'audience 1',
             subscribers: 600,
+            date: 'Jan 20 2021',
             id: 1
         },
         {
             title: 'audience 2',
             subscribers: 800,
+            date: 'Jan 25 2021',
             id: 2
         },
         {
             title: 'audience 3',
             subscribers: 1200,
+            date: 'Jan 30 2021',
             id: 3
         },
     ]
 
-    const AudienceList = Audience.map((audience) => <ChannelB title={audience.title} subscribers={audience.subscribers} id={audience.id}/>)
-
+    const AudienceList = Audience.map((audience) => <ChannelB title={audience.title} subscribers={audience.subscribers} id={audience.id} date={audience.date} />)
 
     return (
         <>
@@ -48,9 +58,9 @@ export const Audience = () => {
             <CampaignHolder>
                 <HeaderHolder>
                     <Header>
-                        Your Campaigns
+                        Your Audiences
                     </Header>
-                    <CreateCampaign href="/create/audience">
+                    <CreateCampaign onClick={ViewCreateAudience} >
                         Create New Audience
                     </CreateCampaign>
                 </HeaderHolder>
@@ -73,6 +83,7 @@ export const Audience = () => {
                     </div>
                 </div>
             </CampaignHolder>
+            <CreateAudience Trigger={CreateAudienceTrigger} setTrigger={setCreateAudienceTrigger} />
         </>
     )
 }

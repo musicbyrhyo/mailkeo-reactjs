@@ -1,10 +1,17 @@
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { ChannelA } from '../components/Channels'
+import { CreateCampaign as CCPop } from '../components/CreateCampaign'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 
 export const Campaigns = () => {
+
+    const [CreateCampaignTrigger, setCreateCampaignTrigger] = useState(false)
+
+    const ViewCreateCampaign = () => {
+        setCreateCampaignTrigger(true);
+    }
 
     const Active = {
         one: {
@@ -53,9 +60,9 @@ export const Campaigns = () => {
                     <Header>
                         Your Campaigns
                     </Header>
-                    <CreateCampaign href="/create/campaign">
+                    <CreateCampaignBtn onClick={ViewCreateCampaign} >
                         Create New Campaign
-                    </CreateCampaign>
+                    </CreateCampaignBtn>
                 </HeaderHolder>
                 <div>
                     <SubHeader>
@@ -76,6 +83,7 @@ export const Campaigns = () => {
                     </div>
                 </div>
             </CampaignHolder>
+            <CCPop setTrigger={setCreateCampaignTrigger} Trigger={CreateCampaignTrigger} />
         </>
     )
 }
@@ -112,7 +120,7 @@ const HeaderHolder = styled.div`
     
 `
 
-const CreateCampaign = styled.a`
+const CreateCampaignBtn = styled.a`
 
     font-size: 12px;
     letter-spacing: 0.5px;
@@ -125,6 +133,13 @@ const CreateCampaign = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: 150ms ease-in-out;
+
+    &:hover{
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.397);
+        transition: 100ms ease-in-out;
+    }
 
 `
 
