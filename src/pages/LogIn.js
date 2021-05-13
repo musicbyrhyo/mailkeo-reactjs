@@ -4,64 +4,41 @@ import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import Axios from 'axios';
-import { ApiBaseUrl } from '../variables';
+
+const hostname = process.env.REACT_APP_API
 
 export const LogIn = () => {
-
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
-
     const [PopUpMessage, setPopUpMessage] = useState('')
-
     const Request = () => {
-
         if (Email !== '' && Password !== '') {
-            
-            Axios.post(`${ApiBaseUrl}/login`,{
-
+            Axios.post(`${hostname}/login`,{
                 email_id: Email,
                 password: Password
-    
             }).then((res)=>{
-
                 switch (res.data.code) {
-   
                     case 1200:
-    
                     setPopUpMessage('No user found, please check your credentials.');
-
                     break;
-
                     case 1400:
-
                     setPopUpMessage('Logged In Successfully, You will be redirected to dashboard.')
                     const user_id = res.data.data.user_id;
-                    sessionStorage.setItem('id',user_id)
+                    localStorage.setItem('id',user_id)
                     // const id = sessionStorage.getItem('id')
-                    window.location.href = `/dashboard`
-
+                    window.location.href = `/overview`
                     break;
-
-
                     case 401:
-
                     setPopUpMessage('Wrong Password, Please check your entered password.')
-
                     break;
-
-
                     default:
                         break;
                 }
-    
             });
-
         } else {
             setPopUpMessage('Please fill all the fields')
         }
-
     }
-
     return (
         <>
             <Holder>
@@ -119,17 +96,12 @@ const LogInDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    
     width: 80vw;
     max-width: 320px;
     height: 48px;
-
     color: ${Colors.light};
-
     border-radius: 5px;
-
     background-color: ${Colors.primary};
-
     cursor: pointer;
 
 `
@@ -143,26 +115,21 @@ const InputDiv = styled.div`
 `
 
 const Label = styled.label`
-
     font-size: 16px;
     color: ${Colors.dark};
     margin-bottom: 6px;
-
 `
 
 const InputHolder = styled.div`
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 80vw;
     max-width: 320px;
     height: 48px;
     
     border-radius: 5px;
     border: 1px solid ${Colors.primary};
-
 `
 
 const Input = styled.input`

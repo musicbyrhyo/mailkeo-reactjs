@@ -1,7 +1,42 @@
+import axios from 'axios'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Colors } from './StyledComponents'
 
+const hostname = process.env.REACT_APP_API
+
 export const CreateAudience = ({Trigger,setTrigger}) => {
+
+    const [List_name, setList_name] = useState('')
+    const [Message, setMessage] = useState('')
+
+    const user_id = localStorage.getItem('id')
+
+    const CreateList = async () => {
+
+        try {
+
+            const Res = await axios.post(`${hostname}/list`,{
+
+                list_name: List_name
+        
+            },{
+                headers: {
+                    authorization: `bearer ${user_id}`
+                }
+            })
+            
+            if(Res.data.code===3200) return setMessage(`List successfully created. You can invite people by send them this link. http://192.168.0.111:3000/join/${Res.data.data.list_id}`)
+
+            console.log(Res);
+
+        } catch (error) {
+
+            if(error.response.data.code===3000) return setMessage('A list with this name already exists')
+
+        }
+
+    }
 
     const CloseView = () => {
         setTrigger(false)
@@ -25,17 +60,14 @@ export const CreateAudience = ({Trigger,setTrigger}) => {
                         <InputHolder>
                             <InputHeader>Audience Name </InputHeader>
                             <InputFieldHolder>
-                                <InputField type="text" />
+                                <InputField onChange={(e)=>setList_name(e.target.value)} type="text" />
                             </InputFieldHolder>
                         </InputHolder>
-                        <InputHolder>
-                            <InputHeader>Audience Description </InputHeader>
-                            <InputFieldAreaHolder>
-                                <InputFieldArea type="text" />
-                            </InputFieldAreaHolder>
-                        </InputHolder>
                     </Form>
-                    <PrimaryBtn> Create Audience </PrimaryBtn>
+                    <PrimaryBtn onClick={CreateList} > Create Audience </PrimaryBtn>
+                    <div>
+                        {Message}
+                    </div>
                 </ViewHolder>
             </Darken>
         </>

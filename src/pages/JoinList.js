@@ -1,12 +1,65 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components'
 import { Colors } from '../components/StyledComponents';
 
+const hostname = process.env.REACT_APP_API
+
 export const JoinList = () => {
 
-    let { list , username } = useParams();
+    let { list } = useParams();
 
-    console.log(list,username);
+    const [Username, setUsername] = useState('')
+    const [Name, setName] = useState('')
+    const [Email, setEmail] = useState('')
+    const [Message, setMessage] = useState('')
+
+    const GetData = async () => {
+
+        try {
+        
+            const res = await axios.get(`${hostname}/name-from-list/${list}`)
+            await setUsername(res.data.data)
+    
+        } catch (error) {
+            
+            window.location.href='http://localhost:3000'
+    
+        }
+
+    }
+
+    const Subscribe = async () => {
+
+        if (Name === '' || Email === '') return setMessage('Enter name and Email')
+
+        try {
+            
+            const res = await axios.post(`${hostname}/subscribe/${list}`,{
+                subs_name: Name ,
+                subs_email: Email
+            })
+
+            if (res.data.code===3400) return setMessage('You are now subscribed to the emailing list')
+
+            console.log(res);
+
+        } catch (error) {
+            
+            if (error.response.data.code===3500) return setMessage('You are already subscribed to this list')
+
+        }
+
+    }
+
+    useEffect(() => {
+
+        GetData()
+        
+    }, [])
+
+    console.log(list);
 
     return (
         <>
@@ -16,14 +69,14 @@ export const JoinList = () => {
                 Invitation to join our email list
                 </Header>
                 <SubHeader>
-                    This is an invitation from 'Mailkeo' to join their emailing list
+                    This is an invitation from '{Username}' to join their emailing list
                 </SubHeader>
                 <div>
                     <InputHeader>
                         Name
                     </InputHeader>
                     <InputFieldHolder>
-                        <InputField type="text" />
+                        <InputField type="text" onChange={(e)=>setName(e.target.value)} />
                     </InputFieldHolder>
                 </div> 
                 <div>
@@ -31,14 +84,14 @@ export const JoinList = () => {
                         Email
                     </InputHeader>
                     <InputFieldHolder>
-                        <InputField type="text" />
+                        <InputField type="text" onChange={(e)=>setEmail(e.target.value)} />
                     </InputFieldHolder>
                 </div> 
-                <JoinListBtn>
+                <JoinListBtn onClick={Subscribe}>
                     Join the list
                 </JoinListBtn>
                 <Description>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    {Message}
                 </Description>
             </JoinListHolder>
         </JoinListBg>
@@ -54,6 +107,8 @@ const JoinListBtn = styled.div`
     align-items: center;
     justify-content: center;
     color: ${Colors.light};
+
+    cursor: pointer;
 
     background: #214ED3;
     border-radius: 10px;

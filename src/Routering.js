@@ -18,7 +18,7 @@ function Routing() {
         <Route exact path="/audience" render={(props)=>(<Audience/>)} />
         <Route exact path="/account" render={(props)=>(<Account/>)} />
         <Route exact path="/overview" render={(props)=>(<Overview/>)} />
-        <Route exact path="/join/:username/:list" render={(props)=>(<JoinList/>)} />
+        <Route exact path="/join/:list" render={(props)=>(<JoinList/>)} />
       </Router>
     </>
   );
