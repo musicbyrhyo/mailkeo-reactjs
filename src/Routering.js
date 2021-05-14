@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import { Account } from './pages/Account';
 import { Audience } from './pages/Audience';
 import { Campaigns } from './pages/Campaigns';
+import { Configure } from './pages/Configure';
 import { Home } from './pages/Home';
 import { JoinList } from './pages/JoinList';
 import { LogIn } from './pages/LogIn';
@@ -19,6 +20,7 @@ function Routing() {
         <Route exact path="/account" render={(props)=>(<Account/>)} />
         <Route exact path="/overview" render={(props)=>(<Overview/>)} />
         <Route exact path="/join/:list" render={(props)=>(<JoinList/>)} />
+        <Route exact path="/configure" render={(props)=>(<Configure/>)} />
       </Router>
     </>
   );

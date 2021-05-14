@@ -4,40 +4,23 @@ import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import Axios from 'axios';
-
+import axios from 'axios';
 const hostname = process.env.REACT_APP_API
 
 export const LogIn = () => {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [PopUpMessage, setPopUpMessage] = useState('')
-    const Request = () => {
-        if (Email !== '' && Password !== '') {
-            Axios.post(`${hostname}/login`,{
-                email_id: Email,
-                password: Password
-            }).then((res)=>{
-                switch (res.data.code) {
-                    case 1200:
-                    setPopUpMessage('No user found, please check your credentials.');
-                    break;
-                    case 1400:
-                    setPopUpMessage('Logged In Successfully, You will be redirected to dashboard.')
-                    const user_id = res.data.data.user_id;
-                    localStorage.setItem('id',user_id)
-                    // const id = sessionStorage.getItem('id')
-                    window.location.href = `/overview`
-                    break;
-                    case 401:
-                    setPopUpMessage('Wrong Password, Please check your entered password.')
-                    break;
-                    default:
-                        break;
-                }
-            });
-        } else {
-            setPopUpMessage('Please fill all the fields')
-        }
+    const Request = async () => {
+
+        const response = await axios.post(`${hostname}/user/login`,{
+            email: Email,
+            password: Password
+        })
+
+        console.log(response);
+        console.log(response.headers.Authorization);
+
     }
     return (
         <>

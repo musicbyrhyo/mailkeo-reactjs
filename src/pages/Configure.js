@@ -3,37 +3,24 @@ import { NavBar } from '../components/NavBar';
 import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
-const hostname = process.env.REACT_APP_API
+export const Configure = () => {
 
-export const SignUp = () => {
-
-    const [Email, setEmail] = useState('')
-    const [Name, setName] = useState('')
-    const [Password, setPassword] = useState('')
+    const [Hostname, setHostname] = useState('')
+    const [Secure, setSecure] = useState(true)
+    const [Port, setPort] = useState(465)
     const [Username, setUsername] = useState('')
+    const [Password, setPassword] = useState('')
     const [PopUpMessage, setPopUpMessage] = useState('')
 
-    const Request = async () => {
+    const Request = () => {
 
-        try {
-            
-            const response = await axios.post(`${hostname}/user/register`,{
-                username: Username,
-                email: Email,
-                name: Name,
-                password: Password
-            })
-
-            localStorage.setItem('_id'.response.headers['_id'])
-
-            setPopUpMessage(response.data)
-
-        } catch (error) {
-
-            setPopUpMessage(error.response.data)
-        }
+        console.log(Hostname);
+        console.log(Secure);
+        console.log(Port);
+        console.log(Username);
+        console.log(Password);
 
     }
     
@@ -41,52 +28,59 @@ export const SignUp = () => {
         <>
             <Holder>
                 <Header>
-                    Create an account
+                    Connect Your Mail Server
                 </Header>
-                <Description>
-                    Create a free account and get started...
-                    <br/>
-                    Have an account? <LogIn href="/login">Log In</LogIn>
-                </Description>
                 <div>
                     <InputDiv>
                         <Label>
-                            Name
+                            Hostname
                         </Label>
-                        <SmallP>(Your full name)</SmallP>
+                        <SmallP>(Your SMTP server)</SmallP>
                         <InputHolder>
-                            <Input type="text" onChange={(e)=>(setName(e.target.value))} autocomplete="off"/>
+                            <Input type="text" onChange={(e)=>(setHostname(e.target.value))} autocomplete="off" placeholder="mail.example.com" />
                         </InputHolder>
                     </InputDiv>
                     <InputDiv>
                         <Label>
-                            Email
+                            Use TLS
                         </Label>
-                        <SmallP>(This email will be used to contact you)</SmallP>
+                        <SmallP>(Transport Layer Security)</SmallP>
                         <InputHolder>
-                            <Input type="text" onChange={(e)=>(setEmail(e.target.value))} autocomplete="off"/>
+                            <Select onChange={(e)=>{setSecure(e.target.value)}} >
+                                <Option value={true}>Yes</Option>
+                                <Option value={false}>No</Option>
+                            </Select>
+                        </InputHolder>
+                    </InputDiv>
+                    <InputDiv>
+                        <Label>
+                            Port
+                        </Label>
+                        <SmallP>(Usually 465 or 587)</SmallP>
+                        <InputHolder>
+                            <Input type="text" onChange={(e)=>(setPort(e.target.value))} autocomplete="off" placeholder="465" />
                         </InputHolder>
                     </InputDiv>
                     <InputDiv>
                         <Label>
                             Username
                         </Label>
-                        <SmallP>(your username will be visible to all)</SmallP>
+                        <SmallP>(This account will be used to send emails)</SmallP>
                         <InputHolder>
-                            <Input type="text" onChange={(e)=>(setUsername(e.target.value))} autocomplete="off"/>
+                            <Input type="text" onChange={(e)=>(setUsername(e.target.value))} autocomplete="off" placeholder="username@example.com" />
                         </InputHolder>
                     </InputDiv>
                     <InputDiv>
                         <Label>
                             Password
                         </Label>
-                        <SmallP>(Your password will highly encrypted before saving)</SmallP>
+                        <SmallP>(This password will not be encrypted)</SmallP>
                         <InputHolder>
                             <Input type="password" onChange={(e)=>(setPassword(e.target.value))} autocomplete="off"/>
                         </InputHolder>
                     </InputDiv>
                     <CreateAccountDiv onClick={Request} >
-                        Create account
+                        Confirm and continue
                     </CreateAccountDiv>
                     <PopUp>
                         {PopUpMessage}
@@ -103,6 +97,26 @@ const SmallP = styled.p`
 
     font-size: 12px;
     margin-bottom: 6px;
+
+`
+
+const Select = styled.select`
+
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    padding-left: 5px;
+
+    &:focus{
+        outline:none;
+    }
+`
+
+const Option = styled.option`
+
+    width: 100%;
+    height: 48px;
 
 `
 
