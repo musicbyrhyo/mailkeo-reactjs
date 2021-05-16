@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { AudienceView } from './AudienceView'
-import { CampaignView } from './CampaignView'
 import { Colors } from './StyledComponents'
 
-export const ChannelA = ({title,date,list,id}) => {
+export const ChannelA = ({title,date,id,complete}) => {
 
-    const [OpenView, setOpenView] = useState(false)
+    const [Completed, setCompleted] = useState('No')
 
     const ViewCampaign = async () => {
 
-        setOpenView(true)
+        window.location.href=`/campaign/${id}`
 
     }
+
+    useEffect(() => {
+
+            if (complete) return setCompleted('Yes')
+
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <>
@@ -35,28 +40,25 @@ export const ChannelA = ({title,date,list,id}) => {
                 </div>
                 <div>
                     <Title>
-                        Recipients
+                        Completed
                     </Title>
                     <Value>
-                        {list}
+                        {Completed}
                     </Value>
                 </div>
                 <PrimaryBtn onClick={ViewCampaign}>
                     View Campaign
                 </PrimaryBtn>
             </ChannelAHolder>
-            <CampaignView Trigger={OpenView} setTrigger={setOpenView} id={id} />
         </>
     )
 }
 
 export const ChannelB = ({title,date,subscribers,id}) => {
 
-    const [OpenView, setOpenView] = useState(false)
-
     const ViewAudience = async () => {
 
-        setOpenView(true)
+        window.location.href=`/audience/${id}`
 
     }
 
@@ -91,7 +93,6 @@ export const ChannelB = ({title,date,subscribers,id}) => {
                     View Audience
                 </PrimaryBtn>
             </ChannelAHolder>
-            <AudienceView Trigger={OpenView} setTrigger={setOpenView} id={id} />
         </>
     )
 }

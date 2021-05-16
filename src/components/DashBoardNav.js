@@ -15,7 +15,7 @@ export const DashBoardNav = ({Active}) => {
                 <NavMenu>
                     <NavItemA href="/overview"><NavItem opacity={Active.one.opacity} >Overview</NavItem></NavItemA>
                     <NavItemA href="/campaigns"><NavItem opacity={Active.two.opacity} >Campaigns</NavItem></NavItemA>
-                    <NavItemA href="/audience"><NavItem opacity={Active.three.opacity} >Audience</NavItem></NavItemA>
+                    <NavItemA href="/audiences"><NavItem opacity={Active.three.opacity} >Audience</NavItem></NavItemA>
                     <ActiveDiv left={Active.left}></ActiveDiv>
                 </NavMenu>
                 <DivLine></DivLine>

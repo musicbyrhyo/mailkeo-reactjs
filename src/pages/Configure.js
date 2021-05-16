@@ -3,7 +3,8 @@ import { NavBar } from '../components/NavBar';
 import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
+const hostname = process.env.REACT_APP_API
 
 export const Configure = () => {
 
@@ -14,13 +15,31 @@ export const Configure = () => {
     const [Password, setPassword] = useState('')
     const [PopUpMessage, setPopUpMessage] = useState('')
 
-    const Request = () => {
+    const token = localStorage.getItem('token')
 
-        console.log(Hostname);
-        console.log(Secure);
-        console.log(Port);
-        console.log(Username);
-        console.log(Password);
+    const Request = async () => {
+
+        try {
+            
+            const response = await axios.post(`${hostname}/user/configure`,{
+                hostname: Hostname,
+                secure: Secure,
+                port: Port,
+                username: Username,
+                password: Password
+            },{
+                headers:{
+                    'authorization': token
+                }
+            })
+
+            setPopUpMessage(response.data)
+
+        } catch (error) {
+            
+            setPopUpMessage(error.response.data)
+
+        }
 
     }
     
@@ -207,22 +226,6 @@ const Header = styled.div`
     font-weight: 600;
     color: ${Colors.primary};
     margin-bottom: 20px;
-
-`
-
-const Description = styled.div`
-    
-    text-align: center;
-    font-size: 16px;
-    color: ${Colors.dark};
-    margin-bottom: 20px;
-
-`
-
-const LogIn = styled.a`
-
-    color: ${Colors.dark};
-    text-decoration: underline;
 
 `
 

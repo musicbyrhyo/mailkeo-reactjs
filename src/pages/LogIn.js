@@ -3,7 +3,6 @@ import { NavBar } from '../components/NavBar';
 import styled from 'styled-components';
 import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
-import Axios from 'axios';
 import axios from 'axios';
 const hostname = process.env.REACT_APP_API
 
@@ -13,13 +12,22 @@ export const LogIn = () => {
     const [PopUpMessage, setPopUpMessage] = useState('')
     const Request = async () => {
 
-        const response = await axios.post(`${hostname}/user/login`,{
-            email: Email,
-            password: Password
-        })
+        if(Email==='') return setPopUpMessage('Please enter your login email')
+        if(Password==='') return setPopUpMessage('Please enter your login password')
 
-        console.log(response);
-        console.log(response.headers.Authorization);
+        try {
+            const response = await axios.post(`${hostname}/user/login`,{
+                email: Email,
+                password: Password
+            })
+            await localStorage.setItem('token',response.headers['authorization'])
+            await localStorage.setItem('username',response.headers['username'])
+            setPopUpMessage(response.data.message)
+            window.location.href=response.data.href
+
+        } catch (error) {
+            setPopUpMessage(error.response.data)
+        }
 
     }
     return (

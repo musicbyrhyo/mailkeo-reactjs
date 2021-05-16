@@ -27,8 +27,9 @@ export const SignUp = () => {
             })
 
             localStorage.setItem('_id'.response.headers['_id'])
-
             setPopUpMessage(response.data)
+
+            window.location.href='/login'
 
         } catch (error) {
 

@@ -8,19 +8,18 @@ import './font.css'
 
 const hostname = process.env.REACT_APP_API
 const token = localStorage.getItem('token')
-const username = localStorage.getItem('username')
 
-export const Audience = () => {
+export const Campaign = () => {
 
     const Active = {
         one: {
             opacity: '1',
         },
         two: {
-            opacity: '1',
+            opacity: '0.5',
         },
         three: {
-            opacity: '0.5',
+            opacity: '1',
         },
         four: {
             opacity: '1',
@@ -30,15 +29,42 @@ export const Audience = () => {
 
     const { id } = useParams()
 
+    const [Complete, setComplete] = useState('No')
+    const [BtnText, setBtnText] = useState('Start Campaign')
+    const [Campaign, setCampaign] = useState({c_date: ''})
     const [Audience, setAudience] = useState({a_subscribers: []})
 
     let AudienceList = Audience.a_subscribers.map((audience)=><AudienceItem name={audience.s_name} email={audience.s_email} />)
 
-    const DeleteAudience = async (req,res) => {
+    const StartCampaign = async (req,res) => {
 
         try {
             
-            const res = await axios.post(`${hostname}/audience/delete`,{
+            const res = await axios.post(`${hostname}/campaign/start`,{
+                _id: id
+            },{
+                headers:{
+                    'authorization': token
+                }
+            })
+
+            console.log(res);
+
+            window.location.reload(false);
+
+        } catch (error) {
+            
+            console.log(error.response);
+
+        }
+
+    }
+
+    const DeleteCampaign = async (req,res) => {
+
+        try {
+            
+            const res = await axios.post(`${hostname}/campaign/delete`,{
                 _id: id
             },{
                 headers:{
@@ -66,19 +92,37 @@ export const Audience = () => {
         
             try {
                 
-                const res = await axios.post(`${hostname}/audience/get`,{
+                await axios.post(`${hostname}/campaign/get`,{
                     _id: id
                 },{
                     headers:{
                         'authorization': token
                     }
+                }).then( async (res)=>{
+
+                    if(res.data.c_complete) {
+                        setComplete('yes')
+                        setBtnText('Re-send Campaign')
+                    }
+    
+                    setCampaign(res.data)
+                    console.log(res);
+                    await axios.post(`${hostname}/audience/get`,{
+                        _id: res.data.c_audience
+                    },{
+                        headers:{
+                            'authorization': token
+                        }
+                    }).then((res2)=>{
+                        console.log(res2);
+                        setAudience(res2.data)
+                    })
+    
                 })
-
-                console.log(res);
-                setAudience(res.data)
-
+    
             } catch (error) {
-                
+                console.log(error.response);
+                window.location.href='/campaigns'
             }
 
         }
@@ -91,22 +135,28 @@ export const Audience = () => {
         <>
             <DashBoardNav Active={Active} />
             <Holder>
-                <Header>Audience</Header>
-                <Pos> Home -> Audience -> {Audience.a_name} </Pos>
+                <Header>Campaign</Header>
+                <Pos> Home -> Campaign -> {Campaign.c_name} </Pos>
                 <HolderInner>
                     <LeftCol>
-                        <HeaderLeft>Audience Details</HeaderLeft>
-                        <CamItems><Field>Audience Name:</Field><Value>{Audience.a_name}</Value></CamItems>
-                        <CamItems><Field>Audience uri:</Field><Value>{Audience.a_uri}</Value></CamItems>
-                        <CamItems><Field>Join Link:</Field><Value> localhost:3000/join/{username}/{Audience.a_uri} </Value></CamItems>
-                        <SecondaryBtn onClick={DeleteAudience} >
-                            Delete Audience
+                        <HeaderLeft>Campaign Details</HeaderLeft>
+                        <CamItems><Field>Campaign Name:</Field><Value>{Campaign.c_name}</Value></CamItems>
+                        <CamItems><Field>Created:</Field><Value>{Campaign.c_date.slice(0,10)}</Value></CamItems>
+                        <CamItems><Field>Subject:</Field><Value>{Campaign.c_subject}</Value></CamItems>
+                        <CamItems><Field>Message:</Field><Value>{Campaign.c_message}</Value></CamItems>
+                        <CamItems><Field>Sent To:</Field><Value>{Audience.a_name}</Value></CamItems>
+                        <CamItems><Field>Completed:</Field><Value>{Complete}</Value></CamItems>
+                        <PrimaryBtn onClick={StartCampaign} >
+                            {BtnText}
+                        </PrimaryBtn>
+                        <SecondaryBtn onClick={DeleteCampaign} >
+                            Delete Campaign
                         </SecondaryBtn>
                     </LeftCol>
                     <RightCol>
                         <div>
                             <SideBHeader>Audience Details</SideBHeader>
-                            <SideBDesc>This list consists of these subscribers</SideBDesc>
+                            <SideBDesc>This campaign will be sent to.</SideBDesc>
                             <AItemHeader>
                                 <AColL>
                                     Name
@@ -150,7 +200,7 @@ const Field = styled.div`
 `
 const Value = styled.div`
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 500;
 
 `
@@ -158,6 +208,29 @@ const Value = styled.div`
 const Pos = styled.div`
 
     font-weight: 500;
+
+`
+
+const PrimaryBtn = styled.div`
+
+    letter-spacing: 0.5px;
+    font-size: 12px;
+    font-weight: 400;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    background-color: ${Colors.primary};
+    color: ${Colors.light};
+    margin: 20px 0px;
+    cursor: pointer;
+    transition: 100ms ease-in-out;
+
+    &:hover{
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.397);
+        transition: 100ms ease-in-out;
+    }
 
 `
 

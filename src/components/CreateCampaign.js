@@ -1,27 +1,68 @@
+import axios from 'axios'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Colors } from './StyledComponents'
 
-export const CreateCampaign = ({Trigger,setTrigger}) => {
+const hostname = process.env.REACT_APP_API
+const token = localStorage.getItem('token')
 
-    const Lists = [
+export const CreateCampaign = ({Trigger,setTrigger,Lists}) => {
+
+    const [Name, setName] = useState('')
+    const [Message, setMessage] = useState('')
+    const [Subject, setSubject] = useState('')
+    const [List, setList] = useState('')
+    const [StatusMessage, setStatusMessage] = useState('')
+
+    const AllLists = [
         {
-            ListName: 'list1'
-        },
-        {
-            ListName: 'list2'
-        },
-        {
-            ListName: 'list3'
-        },
-        {
-            ListName: 'list4'
-        },
-        {
-            ListName: 'list5'
-        },
+            name: 'Select an audience',
+            _id: 0
+        }
     ]
 
-    const SelectList = Lists.map((list)=> <ListItems value={list.ListName}>{list.ListName}</ListItems> )
+    for (let i = 0; i < Lists.length; i++) {
+        
+        AllLists.push(Lists[i])
+        
+    }
+
+    const SelectList = AllLists.map((list)=> <ListItems value={list._id}>{list.name}</ListItems> )
+
+    const createCampaign = async () => {
+
+        if(Name==='') return setStatusMessage('A name is needed to create a campaign')
+        if(Message==='') return setStatusMessage('A message is needed to create a campaign')
+        if(Subject==='') return setStatusMessage('A message is needed to create a campaign')
+        if(List==='') return setStatusMessage('Please select a list to create a campaign')
+
+        try {
+
+            const response = await axios.post(`${hostname}/campaign/create`,{
+                name: Name,
+                message: Message,
+                audience: List,
+                subject: Subject
+            },{
+                headers:{
+                    'authorization': token
+                }
+            })
+
+            console.log(response);
+            setStatusMessage(response.data)
+            
+        } catch (error) {
+            
+            setStatusMessage(error.response.data)
+            console.log(error);
+            
+        }
+
+        setStatusMessage('Campaign successfully created')
+        window.location.reload(false);
+        
+    }
 
     const CloseView = () => {
         setTrigger(false)
@@ -45,28 +86,42 @@ export const CreateCampaign = ({Trigger,setTrigger}) => {
                         <InputHolder>
                             <InputHeader>Campaign Name </InputHeader>
                             <InputFieldHolder>
-                                <InputField type="text" />
+                                <InputField onChange={(e)=>{setName(e.target.value)}}  type="text" />
                             </InputFieldHolder>
                         </InputHolder>
                         <InputHolder>
-                            <InputHeader> Campaign Description </InputHeader>
+                            <InputHeader>Campaign Subject </InputHeader>
+                            <InputFieldHolder>
+                                <InputField onChange={(e)=>{setSubject(e.target.value)}}  type="text" />
+                            </InputFieldHolder>
+                        </InputHolder>
+                        <InputHolder>
+                            <InputHeader>Campaign Message</InputHeader>
                             <InputFieldAreaHolder>
-                                <InputFieldArea type="text" />
+                                <InputFieldArea onChange={(e)=>{setMessage(e.target.value)}} type="text" />
                             </InputFieldAreaHolder>
                         </InputHolder>
                         <InputHolder>
-                            <InputHeader> Recipients </InputHeader>
-                            <ListSelect>
+                            <InputHeader>Recipients</InputHeader>
+                            <ListSelect onChange={(e)=>{setList(e.target.value)}} >
                                 {SelectList}
                             </ListSelect>
                         </InputHolder>
                     </Form>
-                    <PrimaryBtn> Create Campaign </PrimaryBtn>
+                    <PrimaryBtn onClick={createCampaign} > Create Campaign </PrimaryBtn>
+                    <SmallP> {StatusMessage} </SmallP>
                 </ViewHolder>
             </Darken>
         </>
     ) : '' ;
 }
+
+const SmallP = styled.p`
+
+    font-size: 12px;
+    margin-bottom: 6px;
+
+`
 
 const InputFieldAreaHolder = styled.div`
 
@@ -84,9 +139,9 @@ const InputFieldArea = styled.textarea`
 
     font-size: 16px;
     border: none;
-    height: 100%;
+    height: 95%;
     width: 95%;
-
+    resize: none;
     &:focus{
         outline: none;
     }

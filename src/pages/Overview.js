@@ -1,16 +1,14 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ChannelA, ChannelB } from '../components/Channels'
-import { CompBar } from '../components/CompBar'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 
-export const Overview = () => {
+const hostname = process.env.REACT_APP_API
+const token = localStorage.getItem('token')
 
-    const User = {
-        user_id: 'andaob17aiwdbaywd02orjjo1ifw8wa',
-        name: 'Rhyo'
-    }
+export const Overview = () => {
 
     const Active = {
         one: {
@@ -28,69 +26,78 @@ export const Overview = () => {
         left: '0px'
     }
 
-    const Campaigns = [
-        {
-            title: 'My Email Campaign 1',
-            date: '05-01-2021',
-            list: 'list1',
-            id: 1
-        },
-        {
-            title: 'My Email Campaign 2',
-            date: '05-01-2021',
-            list: 'list1',
-            id: 2
-        },
-        {
-            title: 'My Email Campaign 3',
-            date: '05-01-2021',
-            list: 'list1',
-            id: 3
-        },
-    ]
+    const [Campaigns, setCampaigns] = useState([])
+    const [Audiences, setAudiences] = useState([{
+        a_subscribers:[],
+        a_created: ''
+    }])
 
-    const CampaignList = Campaigns.map((campaign) => <ChannelA title={campaign.title} date={campaign.date} list={campaign.list} id={campaign.id}/>)
+    const getCampaign = async () => {
 
-    const Audience = [
-        {
-            title: 'audience 1',
-            subscribers: 600,
-            date: '05-10-2020',
-            id: 1
-        },
-        {
-            title: 'audience 2',
-            subscribers: 800,
-            date: '05-10-2020',
-            id: 2
-        },
-        {
-            title: 'audience 3',
-            subscribers: 1200,
-            date: '05-10-2020',
-            id: 3
-        },
-    ]
+        try {
+            
+            const response = await axios.post(`${hostname}/campaign/getall`,{},{
+                headers:{
+                    'authorization': token
+                }
+            })
+    
+            console.log(response);
+            setCampaigns(response.data)
 
-    const AudienceList = Audience.map((audience) => <ChannelB title={audience.title} subscribers={audience.subscribers} date={audience.date} id={audience.id}/>)
+        } catch (error) {
+            
+            console.log(error);
+
+        }
+
+    }
+
+    const getAudiences = async () => {
+
+        try {
+            
+            const response = await axios.post(`${hostname}/audience/all`,{},{
+                headers:{
+                    'authorization': token
+                }
+            })
+    
+            console.log(response);
+            setAudiences(response.data)
+
+        } catch (error) {
+            
+            console.log(error);
+
+        }
+
+    }
+
+    const checkUser = async () => {
+        if(!token) return window.location.href='/login'
+    }
+
+    const CampaignList = Campaigns.map((campaign) => <ChannelA title={campaign.c_name} date={campaign.c_date.slice(0,10)} id={campaign._id} complete={campaign.c_complete} />)
+
+    const AudienceList = Audiences.map((audience) => <ChannelB title={audience.a_name} subscribers={audience.a_subscribers.length} id={audience._id} date={audience.a_created.slice(0,10)} />)
+
+    useEffect(() => {
+
+        getCampaign()
+        getAudiences()
+        checkUser()
+
+    }, [])
 
     return (
         <>
             <DashBoardNav Active={Active}/>
             <DashBoardHolder>
-                <WelcomeText>Welcome Back, {User.name}</WelcomeText>
-                <Header>Account Usage</Header>
-                <SectionA>
-                        <CompBar width="30%" title="Audience" value="2" total="5" margin="0px 0px 20px 0px" />
-                        <CompBar width="30%" title="Audience" value="16" total="100" margin="0px 0px 20px 0px" />
-                        <CompBar width="30%" title="Audience" value="2" total="5" margin="0px 0px 20px 0px" />
-                        <CompBar width="30%" title="Audience" value="16" total="100" margin="0px 0px 20px 0px" />
-                        <CompBar width="30%" title="Audience" value="2" total="5" margin="0px 0px 20px 0px" />
-                        <CompBar width="30%" title="Audience" value="16" total="100" margin="0px 0px 20px 0px" />
-                </SectionA>
+                <WelcomeText>Welcome Back,</WelcomeText>
                 <SectionB>
                     <SectionHeader>
-                        Recent Campaigns
+                        Campaigns
                     </SectionHeader>
                     <div>
                         {CampaignList}
@@ -98,7 +105,7 @@ export const Overview = () => {
                 </SectionB>
                 <SectionC>
                     <SectionHeader>
-                        Frequently Used Audience
+                        Audiences
                     </SectionHeader>
                     <div>
                         {AudienceList}
@@ -124,25 +131,6 @@ const SectionC= styled.div`
 
 const SectionB = styled.div`
 
-
-`
-
-
-const Header = styled.div`
-
-    font-size: 18px;
-    color: ${Colors.dark};
-    margin-bottom: 12px;
-
-`
-
-const SectionA = styled.div`
-
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    margin-bottom: 24px;
 
 `
 

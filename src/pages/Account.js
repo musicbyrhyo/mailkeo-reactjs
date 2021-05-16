@@ -1,9 +1,65 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { CompBar } from '../components/CompBar'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 
+const hostname = process.env.REACT_APP_API
+const token = localStorage.getItem('token')
+
 export const Account = () => {
+
+    const [Secure, setSecure] = useState('false')
+
+    const checkUser = async () => {
+        if(!token) return window.location.href='/login'
+    }
+
+    const LogOut = async () => {
+
+        await localStorage.removeItem('token')
+        await localStorage.removeItem('username')
+
+        window.location.href='/'
+
+    }
+    
+    const [User, setUser] = useState({
+        u_audiences: [],
+        u_campaigns: [],
+        mail_server:{
+            auth: {}
+        }
+    })
+
+    const GetUser = async () =>{
+
+        try {
+            
+            const res = await axios.post(`${hostname}/user/get`,{},{
+                headers:{
+                    'authorization': token
+                }
+            })
+
+            if(res.data.mail_server.secure) {
+                setSecure('Yes')
+            }
+
+            setUser(res.data)
+
+        } catch (error) {
+            
+        }
+
+    }
+
+    useEffect(() => {
+        
+        GetUser()
+        checkUser()
+
+    }, [])
 
     const Active = {
         one: {
@@ -21,35 +77,6 @@ export const Account = () => {
         left: '5000px'
     }
 
-    const RecentActions = [
-        {
-            action: 'Log In from new browser',
-            date: '9-01-2021',
-            time: '1822',
-            location: 'Mumbai,India'
-        },
-        {
-            action: 'Log In from new browser',
-            date: '11-01-2021',
-            time: '1452',
-            location: 'Mumbai,India'
-        },
-        {
-            action: 'Log In from new browser',
-            date: '14-01-2021',
-            time: '1536',
-            location: 'Mumbai,India'
-        },
-        {
-            action: 'Log In from new browser',
-            date: '20-01-2021',
-            time: '1943',
-            location: 'Mumbai,India'
-        }
-    ]
-
-    const ActionTable = RecentActions.map((action)=><TableEntry action={action.action} time={action.time} date={action.date} location={action.location} />)
-
     return (
         <div>
             <DashBoardNav Active={Active}/>
@@ -62,26 +89,22 @@ export const Account = () => {
                         <AboutHeader>
                             Account Details
                         </AboutHeader>
-                        <EditBtn>
-                            Edit Account Details
+                        <EditBtn onClick={LogOut} >
+                            Log Out
                         </EditBtn>
                     </AboutTop>
                     <AboutDescription>
                         <AboutItems> 
                             <ATitle>Username:</ATitle>
-                            <AValue>Nishchay Beharam</AValue>
+                            <AValue>{User.username}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Full Name:</ATitle>
+                            <AValue>{User.u_name}</AValue>
                         </AboutItems>
                         <AboutItems> 
                             <ATitle>Email:</ATitle>
-                            <AValue>contact.nishchayb@gmail.com</AValue>
-                        </AboutItems>
-                        <AboutItems> 
-                            <ATitle>Phone:</ATitle>
-                            <AValue>012345678</AValue>
-                        </AboutItems>
-                        <AboutItems> 
-                            <ATitle>Date Joined:</ATitle>
-                            <AValue>Jan 2, 2021</AValue>
+                            <AValue>{User.u_email}</AValue>
                         </AboutItems>
                         <AboutItems> 
                             <ATitle>Active Plan:</ATitle>
@@ -91,39 +114,50 @@ export const Account = () => {
                             <ATitle>Account Type:</ATitle>
                             <AValue>Personal</AValue>
                         </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Total Audiences</ATitle>
+                            <AValue>{User.u_audiences.length}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Total Campaign</ATitle>
+                            <AValue>{User.u_campaigns.length}</AValue>
+                        </AboutItems>
                     </AboutDescription>
                 </About>
-                <OverviewHolder>
-                    <Overview>
-                        Overview
-                    </Overview>
-                    <CompBarHolder>
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                        <CompBar title="Subscribers" total="100" value="20" width="30%" margin="10px 0px" />
-                    </CompBarHolder>
-                </OverviewHolder>
-                <RecentActHolder>
-                    <RecentActionsHolder>
-                        Recent Actions
-                    </RecentActionsHolder>
-                    <ActionTableHolder>
-                        <Col1H>Action</Col1H>
-                        <Col2H>Date</Col2H>
-                        <Col3H>Time</Col3H>
-                        <Col4H>Location</Col4H>
-                    </ActionTableHolder>
-                    <div>
-                        {ActionTable}
-                    </div>
-                </RecentActHolder>
+                <About>
+                <AboutTop>
+                        <AboutHeader>
+                            Mail Server Details
+                        </AboutHeader>
+                    </AboutTop>
+                    <AboutDescription>
+                        <AboutItems> 
+                            <ATitle>Hostname:</ATitle>
+                            <AValue>{User.mail_server.hostname}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Port:</ATitle>
+                            <AValue>{User.mail_server.port}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Secure:</ATitle>
+                            <AValue>{Secure}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Email:</ATitle>
+                            <AValue>{User.mail_server.auth.username}</AValue>
+                        </AboutItems>
+                        <AboutItems> 
+                            <ATitle>Password:</ATitle>
+                            <AValue>{User.mail_server.auth.password}</AValue>
+                        </AboutItems>
+                    </AboutDescription>
+                </About>
             </Holder>
         </div>
     )
 }
+
 
 const AboutTop = styled.div`
 
@@ -145,12 +179,6 @@ const EditBtn = styled.div`
     align-items: center;
     justify-content: center;
     color: ${Colors.primary};
-
-`
-
-const RecentActHolder = styled.div`
-
-    margin-top: 20px;
 
 `
 
@@ -195,114 +223,6 @@ const ATitle = styled.div`
     color: ${Colors.dark};
     font-weight: 500;
     margin-bottom: 3px;
-
-`
-
-const TableEntry = ({action,date,time,location}) => {
-    return(
-        <TableEntryHolder>
-            <Col1> {action} </Col1>
-            <Col2> {date} </Col2>
-            <Col3> {time} </Col3>
-            <Col4> {location} </Col4>
-        </TableEntryHolder>
-    )
-}
-
-const RecentActionsHolder = styled.div`
-
-    font-size: 20px;
-    margin-bottom: 20px;
-
-`
-
-const TableEntryHolder = styled.div`
-
-    display: flex;
-    margin-bottom: 16px;
-
-`
-
-const ActionTableHolder = styled.div`
-
-    display: flex;
-    font-size: 14px;
-    color: ${Colors.primary};
-    margin-bottom: 16px;
-
-`
-
-const Col1H = styled.div`
-
-    width: calc(35% - 10px);
-    margin-right: 10px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid ${Colors.profile};
-
-`
-const Col2H = styled.div`
-
-    width: calc(15% - 10px);
-    margin-right: 10px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid ${Colors.profile};
-
-`
-const Col3H = styled.div`
-
-    width: calc(15% - 10px);
-    margin-right: 10px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid ${Colors.profile};
-
-
-`
-const Col4H = styled.div`
-
-    width: 35%;
-    padding-bottom: 4px;
-    border-bottom: 1px solid ${Colors.profile};
-
-`
-
-const Col1 = styled.div`
-
-    width: 35%;
-
-`
-const Col2 = styled.div`
-
-    width: 15%;
-
-`
-const Col3 = styled.div`
-
-    width: 15%;
-
-`
-const Col4 = styled.div`
-
-    width: 25%;
-
-`
-
-const CompBarHolder = styled.div`
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-`
-const Overview = styled.div`
-    
-    font-size: 20px;
-    border-bottom: 1px solid ${Colors.dark};
-    padding: 0px 0px 8px 0px;
-    margin-bottom: 12px;
-
-`
-
-const OverviewHolder = styled.div`
 
 `
 

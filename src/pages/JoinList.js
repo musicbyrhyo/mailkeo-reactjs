@@ -8,22 +8,28 @@ const hostname = process.env.REACT_APP_API
 
 export const JoinList = () => {
 
-    let { list } = useParams();
-
-    const [Username, setUsername] = useState('')
+    let { list , username } = useParams();
     const [Name, setName] = useState('')
     const [Email, setEmail] = useState('')
     const [Message, setMessage] = useState('')
 
     const GetData = async () => {
 
+        if(!list || !username) return window.location.href='http://localhost:3000'
+
         try {
         
-            const res = await axios.get(`${hostname}/name-from-list/${list}`)
-            await setUsername(res.data.data)
+            const res = await axios.post(`${hostname}/subscriber/check`,{
+                uri: list,
+                username: username
+            })
     
+            console.log(res);
+
         } catch (error) {
             
+            console.log(error.response);
+
             window.location.href='http://localhost:3000'
     
         }
@@ -32,22 +38,23 @@ export const JoinList = () => {
 
     const Subscribe = async () => {
 
-        if (Name === '' || Email === '') return setMessage('Enter name and Email')
+        if(Name==='') return setMessage('Please enter your name')
+        if(Email==='') return setMessage('Please enter your Email')
 
         try {
             
-            const res = await axios.post(`${hostname}/subscribe/${list}`,{
-                subs_name: Name ,
-                subs_email: Email
+            const res = await axios.post(`${hostname}/subscriber/subscribe`,{
+                uri: list,
+                username: username,
+                name: Name,
+                email: Email
             })
 
-            if (res.data.code===3400) return setMessage('You are now subscribed to the emailing list')
-
-            console.log(res);
+            setMessage(res.data)
 
         } catch (error) {
             
-            if (error.response.data.code===3500) return setMessage('You are already subscribed to this list')
+            setMessage(error.response.data)
 
         }
 
@@ -56,10 +63,8 @@ export const JoinList = () => {
     useEffect(() => {
 
         GetData()
-        
+        // eslint-disable-next-line
     }, [])
-
-    console.log(list);
 
     return (
         <>
@@ -69,7 +74,7 @@ export const JoinList = () => {
                 Invitation to join our email list
                 </Header>
                 <SubHeader>
-                    This is an invitation from '{Username}' to join their emailing list
+                    This is an invitation from '{username}' to join their emailing list
                 </SubHeader>
                 <div>
                     <InputHeader>

@@ -4,38 +4,29 @@ import styled from 'styled-components'
 import { Colors } from './StyledComponents'
 
 const hostname = process.env.REACT_APP_API
-
+const token = localStorage.getItem('token')
 export const CreateAudience = ({Trigger,setTrigger}) => {
 
     const [List_name, setList_name] = useState('')
+    const [List_uri, setList_uri] = useState('')
     const [Message, setMessage] = useState('')
 
-    const user_id = localStorage.getItem('id')
-
     const CreateList = async () => {
-
+        if(List_name==='') return setMessage('Please enter list name')
+        if(List_uri==='') return setMessage('Please enter list Uri')
         try {
-
-            const Res = await axios.post(`${hostname}/list`,{
-
-                list_name: List_name
-        
+            const response = await axios.post(`${hostname}/audience/create`,{
+                name: List_name,
+                uri: List_uri
             },{
-                headers: {
-                    authorization: `bearer ${user_id}`
+                headers:{
+                    'authorization': token
                 }
             })
-            
-            if(Res.data.code===3200) return setMessage(`List successfully created. You can invite people by send them this link. http://192.168.0.111:3000/join/${Res.data.data.list_id}`)
-
-            console.log(Res);
-
+            console.log(response);
         } catch (error) {
-
-            if(error.response.data.code===3000) return setMessage('A list with this name already exists')
-
+            console.log(error);
         }
-
     }
 
     const CloseView = () => {
@@ -63,6 +54,14 @@ export const CreateAudience = ({Trigger,setTrigger}) => {
                                 <InputField onChange={(e)=>setList_name(e.target.value)} type="text" />
                             </InputFieldHolder>
                         </InputHolder>
+                        <InputHolder>
+                            <InputHeader>Audience uri </InputHeader>
+                            <InputFieldHolder>
+                                <InputField onChange={(e)=>setList_uri(e.target.value)} type="text" />
+                            </InputFieldHolder>
+                        </InputHolder>
+                        <SmallP> Your invite link will be: </SmallP>
+                        <SmallP> localhost:3000/join/{localStorage.getItem('username')}/{List_uri} </SmallP>
                     </Form>
                     <PrimaryBtn onClick={CreateList} > Create Audience </PrimaryBtn>
                     <div>
@@ -73,6 +72,13 @@ export const CreateAudience = ({Trigger,setTrigger}) => {
         </>
     ) : '' ;
 }
+
+const SmallP = styled.p`
+
+    font-size: 12px;
+    margin-bottom: 6px;
+
+`
 
 const InputFieldHolder = styled.div`
 
@@ -86,31 +92,6 @@ const InputFieldHolder = styled.div`
 
 `
 const InputField = styled.input`
-
-    font-size: 16px;
-    border: none;
-    height: 100%;
-    width: 95%;
-
-    &:focus{
-        outline: none;
-    }
-
-`
-
-const InputFieldAreaHolder = styled.div`
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100px;
-    border: 1px solid ${Colors.dark};
-    border-radius: 5px;
-
-`
-
-const InputFieldArea = styled.textarea`
 
     font-size: 16px;
     border: none;

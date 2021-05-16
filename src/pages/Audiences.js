@@ -1,50 +1,55 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ChannelA } from '../components/Channels'
-import { CreateCampaign as CCPop } from '../components/CreateCampaign'
+import { ChannelB } from '../components/Channels'
+import { CreateAudience } from '../components/CreateAudience'
 import { DashBoardNav } from '../components/DashBoardNav'
 import { Colors } from '../components/StyledComponents'
 
 const hostname = process.env.REACT_APP_API
 const token = localStorage.getItem('token')
 
-export const Campaigns = () => {
+export const Audiences = () => {
 
-    const [CreateCampaignTrigger, setCreateCampaignTrigger] = useState(false)
-    const [Campaigns, setCampaigns] = useState([])
-    const [Lists, setLists] = useState([])
+    const [Audiences, setAudiences] = useState([{
+        a_subscribers:[],
+        a_created: ''
+    }])
 
-    const getLists = async () => {
+    const [CreateAudienceTrigger, setCreateAudienceTrigger] = useState(false)
 
-        try {
-            
-            const response = await axios.post(`${hostname}/audience/names`,{},{
-                headers:{
-                    'authorization': token
-                }
-            })
-
-            setLists(response.data)
-
-        } catch (error) {
-            
-        }
-
+    const ViewCreateAudience = () => {
+        setCreateAudienceTrigger(true);
     }
 
-    const getCampaign = async () => {
+    const Active = {
+        one: {
+            opacity: '1',
+        },
+        two: {
+            opacity: '1',
+        },
+        three: {
+            opacity: '0.5',
+        },
+        four: {
+            opacity: '1',
+        },
+        left: '200px'
+    }
+
+    const getAudiences = async () => {
 
         try {
             
-            const response = await axios.post(`${hostname}/campaign/getall`,{},{
+            const response = await axios.post(`${hostname}/audience/all`,{},{
                 headers:{
                     'authorization': token
                 }
             })
     
             console.log(response);
-            setCampaigns(response.data)
+            setAudiences(response.data)
 
         } catch (error) {
             
@@ -54,34 +59,13 @@ export const Campaigns = () => {
 
     }
 
-    const ViewCreateCampaign = () => {
-        setCreateCampaignTrigger(true);
-    }
+    const AudienceList = Audiences.map((audience) => <ChannelB title={audience.a_name} subscribers={audience.a_subscribers.length} id={audience._id} date={audience.a_created.slice(0,10)} />)
 
     useEffect(() => {
         
-        getCampaign()
-        getLists()
+        getAudiences()
 
     }, [])
-
-    const Active = {
-        one: {
-            opacity: '1',
-        },
-        two: {
-            opacity: '0.5',
-        },
-        three: {
-            opacity: '1',
-        },
-        four: {
-            opacity: '1',
-        },
-        left: '100px'
-    }
-
-    const CampaignList = Campaigns.map((campaign) => <ChannelA title={campaign.c_name} date={campaign.c_date.slice(0,10)} id={campaign._id} complete={campaign.c_complete} />)
 
     return (
         <>
@@ -89,23 +73,23 @@ export const Campaigns = () => {
             <CampaignHolder>
                 <HeaderHolder>
                     <Header>
-                        Your Campaigns
+                        Your Audiences
                     </Header>
-                    <CreateCampaignBtn onClick={ViewCreateCampaign} >
-                        Create New Campaign
-                    </CreateCampaignBtn>
+                    <CreateCampaign onClick={ViewCreateAudience} >
+                        Create New Audience
+                    </CreateCampaign>
                 </HeaderHolder>
                 <div>
                     <SubHeader>
-                        Last 30 Days
+                        All Audiences
                     </SubHeader>
                     <Divider></Divider>
                     <div>
-                        {CampaignList}
+                        {AudienceList}
                     </div>
                 </div>
             </CampaignHolder>
-            <CCPop setTrigger={setCreateCampaignTrigger} Trigger={CreateCampaignTrigger} Lists={Lists} />
+            <CreateAudience Trigger={CreateAudienceTrigger} setTrigger={setCreateAudienceTrigger} />
         </>
     )
 }
@@ -139,10 +123,10 @@ const HeaderHolder = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    
+
 `
 
-const CreateCampaignBtn = styled.a`
+const CreateCampaign = styled.a`
 
     font-size: 12px;
     letter-spacing: 0.5px;
@@ -155,13 +139,6 @@ const CreateCampaignBtn = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: 150ms ease-in-out;
-
-    &:hover{
-        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.397);
-        transition: 100ms ease-in-out;
-    }
 
 `
 
