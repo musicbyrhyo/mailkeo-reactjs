@@ -35,7 +35,7 @@ export const Audiences = () => {
         four: {
             opacity: '1',
         },
-        left: '200px'
+        left: '5000px'
     }
 
     const getAudiences = async () => {
@@ -139,6 +139,13 @@ const CreateCampaign = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: 150ms ease-in-out;
+
+    &:hover{
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.397);
+        transition: 100ms ease-in-out;
+    }
 
 `
 

@@ -7,6 +7,7 @@ import { Colors } from '../components/StyledComponents'
 
 const hostname = process.env.REACT_APP_API
 const token = localStorage.getItem('token')
+const username = localStorage.getItem('username')
 
 export const Overview = () => {
 
@@ -23,7 +24,7 @@ export const Overview = () => {
         four: {
             opacity: '1',
         },
-        left: '0px'
+        left: '5000px'
     }
 
     const [Campaigns, setCampaigns] = useState([])
@@ -94,7 +95,7 @@ export const Overview = () => {
         <>
             <DashBoardNav Active={Active}/>
             <DashBoardHolder>
-                <WelcomeText>Welcome Back,</WelcomeText>
+                <WelcomeText>Welcome Back, {username} </WelcomeText>
                 <SectionB>
                     <SectionHeader>
                         Campaigns
@@ -126,11 +127,13 @@ const SectionHeader = styled.div`
 
 const SectionC= styled.div`
 
+    margin-bottom: 60px;
 
 `
 
 const SectionB = styled.div`
 
+margin-bottom: 60px;
 
 `
 

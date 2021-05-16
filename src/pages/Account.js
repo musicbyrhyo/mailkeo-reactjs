@@ -23,6 +23,10 @@ export const Account = () => {
         window.location.href='/'
 
     }
+
+    const ToConfig = async () => {
+        window.location.href='/configure'
+    }
     
     const [User, setUser] = useState({
         u_audiences: [],
@@ -115,11 +119,11 @@ export const Account = () => {
                             <AValue>Personal</AValue>
                         </AboutItems>
                         <AboutItems> 
-                            <ATitle>Total Audiences</ATitle>
+                            <ATitle>Total Audiences:</ATitle>
                             <AValue>{User.u_audiences.length}</AValue>
                         </AboutItems>
                         <AboutItems> 
-                            <ATitle>Total Campaign</ATitle>
+                            <ATitle>Total Campaigns:</ATitle>
                             <AValue>{User.u_campaigns.length}</AValue>
                         </AboutItems>
                     </AboutDescription>
@@ -129,6 +133,9 @@ export const Account = () => {
                         <AboutHeader>
                             Mail Server Details
                         </AboutHeader>
+                        <EditBtn onClick={ToConfig} >
+                            Configure
+                        </EditBtn>
                     </AboutTop>
                     <AboutDescription>
                         <AboutItems> 
@@ -179,6 +186,7 @@ const EditBtn = styled.div`
     align-items: center;
     justify-content: center;
     color: ${Colors.primary};
+    cursor: pointer;
 
 `
 

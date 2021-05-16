@@ -24,7 +24,9 @@ export const CreateAudience = ({Trigger,setTrigger}) => {
                 }
             })
             console.log(response);
+            setMessage(response.data)
         } catch (error) {
+            setMessage(error.response.data)
             console.log(error);
         }
     }

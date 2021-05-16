@@ -5,6 +5,7 @@ import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import axios from 'axios';
 const hostname = process.env.REACT_APP_API
+const token = localStorage.getItem('token')
 
 export const Configure = () => {
 
@@ -14,8 +15,6 @@ export const Configure = () => {
     const [Username, setUsername] = useState('')
     const [Password, setPassword] = useState('')
     const [PopUpMessage, setPopUpMessage] = useState('')
-
-    const token = localStorage.getItem('token')
 
     const Request = async () => {
 
@@ -33,7 +32,9 @@ export const Configure = () => {
                 }
             })
 
+            console.log(response);
             setPopUpMessage(response.data)
+            window.location.href='/overview'
 
         } catch (error) {
             

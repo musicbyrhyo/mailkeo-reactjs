@@ -33,7 +33,10 @@ export const SignUp = () => {
 
         } catch (error) {
 
+            console.log(error.response);
+
             setPopUpMessage(error.response.data)
+
         }
 
     }

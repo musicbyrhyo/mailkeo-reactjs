@@ -78,7 +78,7 @@ export const Campaigns = () => {
         four: {
             opacity: '1',
         },
-        left: '100px'
+        left: '5000px'
     }
 
     const CampaignList = Campaigns.map((campaign) => <ChannelA title={campaign.c_name} date={campaign.c_date.slice(0,10)} id={campaign._id} complete={campaign.c_complete} />)
