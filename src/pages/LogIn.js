@@ -5,8 +5,14 @@ import { Colors } from '../components/StyledComponents';
 import { useState } from 'react';
 import axios from 'axios';
 const hostname = process.env.REACT_APP_API
+const token = localStorage.getItem('token')
 
 export const LogIn = () => {
+
+    if(token) {
+        window.location.href='/overview'    
+    }
+
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [PopUpMessage, setPopUpMessage] = useState('')
